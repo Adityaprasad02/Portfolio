@@ -11,12 +11,12 @@ import {
 } from "lucide-react";
 function Resume() {
     const SectionLabel = ({ children }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-    <span style={{ fontFamily: "monospace", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "#00FFB2" }}>{children}</span>
-    <div style={{ height: 1, width: 50, background: "linear-gradient(to right, #00FFB2, transparent)" }} />
+  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, justifyContent: "center" }}>
+    <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, letterSpacing: "0.15em", textTransform: "uppercase", color: "#3b82f6", fontWeight: 600 }}>{children}</span>
+    <div style={{ height: 2, width: 60, background: "linear-gradient(to right, #3b82f6, transparent)", borderRadius: 2 }} />
   </div>
 );
-const GlowText = ({ children, colors = ["#00FFB2", "#a855f7", "#F59E0B"] }) => (
+const GlowText = ({ children, colors = ["#3b82f6", "#60a5fa", "#93c5fd"] }) => (
   <span style={{
     background: `linear-gradient(135deg, ${colors.join(", ")})`,
     WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
@@ -24,21 +24,24 @@ const GlowText = ({ children, colors = ["#00FFB2", "#a855f7", "#F59E0B"] }) => (
   }}>{children}</span>
 );
   return (
-    <section id="resume" style={{ padding: "100px 28px" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ position: "relative", background: "rgba(17,24,39,0.75)", border: "1px solid rgba(0,255,178,0.22)", borderRadius: 24, padding: "80px 40px", textAlign: "center", overflow: "hidden", backdropFilter: "blur(20px)", boxShadow: "0 0 60px rgba(0,255,178,0.06)" }}>
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(0,255,178,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(0,255,178,0.025) 1px,transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(0,255,178,0.05), transparent 70%)", pointerEvents: "none" }} />
+    <section id="resume" style={{ padding: "100px 28px", width: "100%" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", width: "100%" }}>
+        <div style={{ position: "relative", background: "rgba(10,10,15,0.9)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 24, padding: "80px 40px", textAlign: "center", overflow: "hidden", backdropFilter: "blur(20px)", boxShadow: "0 0 60px rgba(59,130,246,0.1)", transition: "all 0.3s" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(59,130,246,0.4)"; e.currentTarget.style.boxShadow = "0 0 80px rgba(59,130,246,0.2)"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(59,130,246,0.2)"; e.currentTarget.style.boxShadow = "0 0 60px rgba(59,130,246,0.1)"; }}
+        >
+          <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(59,130,246,0.08), transparent 70%)", pointerEvents: "none" }} />
           <div style={{ position: "relative", zIndex: 1 }}>
             <SectionLabel>Resume</SectionLabel>
-            <h2 style={{ fontFamily: "serif", fontWeight: 900, fontSize: "clamp(32px,5vw,58px)", color: "#fff", margin: "0 0 18px", lineHeight: 1.2 }}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(36px,5vw,64px)", color: "#fff", margin: "12px 0 24px", lineHeight: 1.2, letterSpacing: "-0.02em" }}>
               Want to know <GlowText>more?</GlowText>
             </h2>
-            <p style={{ color: "#9CA3AF", fontSize: 16, marginBottom: 36, maxWidth: 480, margin: "0 auto 36px" }}>
+            <p style={{ color: "#94a3b8", fontSize: 17, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px", fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               Download my resume for a complete overview of my experience, skills, certifications, and achievements.
             </p>
-            <NeonBtn href="resume.pdf" style={{ padding: "14px 48px", fontSize: 12 }}><Download size={16} />Download Resume (PDF)</NeonBtn>
-            <p style={{ fontFamily: "monospace", fontSize: 11, color: "#4B5563", marginTop: 20 }}>Last updated: 2025</p>
+            <NeonBtn href="resume.pdf" style={{ padding: "16px 56px", fontSize: 14, fontWeight: 600 }}><Download size={18} />Download Resume (PDF)</NeonBtn>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#64748b", marginTop: 24, fontWeight: 500 }}>Last updated: 2025</p>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ import About from "@/components/About.jsx";
 import Projects from "./components/Projects.jsx";
 import Experience from "./components/Experience.jsx";
 import Resume from "./components/Resume.jsx";
+import CodingProfiles from "./components/CodingProfiles.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import Footer from "@/components/Footer.jsx";
 
@@ -36,7 +37,7 @@ export default function Portfolio() {
     const root = document.getElementById("scroll-root");
     if (!root) return;
     const h = () => {
-      const sections = ["hero","skills","about","projects","experience","resume","contact"];
+      const sections = ["hero","skills","about","projects","experience","resume","profiles","contact"];
       sections.forEach(id => {
         const el = document.getElementById(id);
         if (el && el.offsetTop <= root.scrollTop + 140) setActive(id);
@@ -51,17 +52,25 @@ export default function Portfolio() {
       <CustomCursor />
       <div
         id="scroll-root"
-        className="bg-[#080B10] min-h-screen text-gray-200 overflow-x-hidden overflow-y-auto"
+        className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden overflow-y-auto"
+        style={{
+          background: 'linear-gradient(135deg, #000000 0%, #0a0a1a 50%, #000000 100%)',
+        }}
       >
-        <Navbar active={active} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrollTo={scrollTo} />
-        <Hero />
-        <Skills />
-        <About />
-        <Projects />
-        <Experience />
-        <Resume />
-        <ContactForm />
-        <Footer />
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col items-center">
+            <Navbar active={active} menuOpen={menuOpen} setMenuOpen={setMenuOpen} scrollTo={scrollTo} />
+            <Hero scrollTo={scrollTo} />
+            <Skills />
+            <CodingProfiles />
+            <About />
+            <Projects />
+            <Experience />
+            <Resume />
+            <ContactForm />
+            <Footer />
+          </div>
+        </div>
       </div>
     </>
   );
