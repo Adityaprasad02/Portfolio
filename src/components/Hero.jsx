@@ -146,12 +146,11 @@ const GlowText = ({ children, colors = ["#3b82f6", "#60a5fa", "#93c5fd"] }) => (
           </p>
 
           <p style={{ color: "#94a3b8", lineHeight: 1.8, maxWidth: 500, margin: 0, fontSize: 16, fontFamily: "'Inter', sans-serif" }}>
-            I architect high-performance backend systems — from microservices to distributed event pipelines. Passionate about clean code that scales without breaking at 3am.
-          </p>
+Building scalable backend systems with microservices, APIs, and event-driven architecture — focused on clean, reliable code.          </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8 }}>
             <NeonBtn onClick={() => scrollTo("projects")}><Server size={14} />View Projects</NeonBtn>
-            <NeonBtn href="resume.pdf" outline><Download size={14} />Download Resume</NeonBtn>
+            <NeonBtn href="/assets/Resume/AdityaUpdatedResume.pdf" outline><Download size={14} />Download Resume</NeonBtn>
           </div>
 
           <div ref={ref} style={{ display: "flex", gap: 40, paddingTop: 24, borderTop: "1px solid rgba(59,130,246,0.2)", marginTop: 8 }}>

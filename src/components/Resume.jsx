@@ -9,6 +9,7 @@ import {
   Server, Layers, Workflow, CheckCircle2, Menu, X,
   ChevronLeft, ChevronRight, Zap, Coffee,
 } from "lucide-react";
+
 function Resume() {
     const SectionLabel = ({ children }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, justifyContent: "center" }}>
@@ -39,9 +40,18 @@ const GlowText = ({ children, colors = ["#3b82f6", "#60a5fa", "#93c5fd"] }) => (
             </h2>
             <p style={{ color: "#94a3b8", fontSize: 17, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px", fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               Download my resume for a complete overview of my experience, skills, certifications, and achievements.
+            <a
+            href="/assets/Resume/AdityaUpdatedResume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              <NeonBtn style={{ padding: "16px 56px", fontSize: 14, fontWeight: 600 }}>
+                <Download size={18} />Download Resume (PDF)
+              </NeonBtn>
+            </a>
             </p>
-            <NeonBtn href="resume.pdf" style={{ padding: "16px 56px", fontSize: 14, fontWeight: 600 }}><Download size={18} />Download Resume (PDF)</NeonBtn>
-            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#64748b", marginTop: 24, fontWeight: 500 }}>Last updated: 2025</p>
+            <p style={{  fontSize: 12, color: "#64748b", marginTop: 24, fontWeight: 500 }}>Last updated: 2026*</p>
           </div>
         </div>
       </div>

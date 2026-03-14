@@ -26,26 +26,12 @@ const GlowText = ({ children, colors = ["#3b82f6", "#60a5fa", "#93c5fd"] }) => (
 );
 const EXPERIENCE = [
   {
-    role: "Software Engineering Intern", company: "TechCorp Pvt Ltd",
-    duration: "Jun 2023 – Dec 2023", accent: "#3b82f6",
-    tech: ["Spring Boot", "Redis", "MySQL"],
-    description: "Developed RESTful APIs using Spring Boot. Redis caching reduced response time by 40%. Collaborated on DB schema design and query optimization.",
-    highlights: ["Built scalable REST APIs", "Improved latency with caching", "Optimized DB queries"],
-  },
-  {
-    role: "Backend Developer Intern", company: "StartupXYZ",
-    duration: "Jan 2023 – May 2023", accent: "#60a5fa",
-    tech: ["Microservices", "JUnit", "Docker"],
-    description: "Built microservices for user onboarding and notifications. Integrated payment APIs. Achieved 85% test coverage.",
-    highlights: ["Microservices delivery", "Payment API integration", "High test coverage"],
-  },
-  {
-    role: "Java Developer Intern", company: "DevStudio Labs",
-    duration: "Jun 2022 – Dec 2022", accent: "#93c5fd",
-    tech: ["Hibernate", "JPA", "PostgreSQL"],
-    description: "Contributed to monolith-to-microservices migration. Maintained Hibernate ORM mappings with deep JPA and transaction management expertise.",
-    highlights: ["Migration support", "Hibernate/JPA expertise", "Reliable transactions"],
-  },
+    role: "Inhouse Internship", company: "KisTechnoSoft Pvt. Ltd.",
+    duration: "July 2024 – August 2024", accent: "#3b82f6",
+    tech: ["Html", "Css", "Javascript" , "JQuery"],
+    description: "Developed a community service app - LocalConnect : to Connect people in a locality and they can share image , react and comment on each other's post",
+    highlights: ["User authentication", "MySQL Database Storage"],
+  }
 ];
 
   return (

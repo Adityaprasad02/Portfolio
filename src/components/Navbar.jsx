@@ -1,23 +1,15 @@
-import React from 'react'
+import React from 'react';
 import { useState, useEffect, useRef } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  Github, Linkedin, Mail, Download, ExternalLink, ChevronDown,
-  ArrowRight, Code2, Terminal, Cpu, Database, Cloud, GitBranch,
-  Server, Layers, Workflow, CheckCircle2, Menu, X,
-  ChevronLeft, ChevronRight, Zap, Coffee,
-} from "lucide-react";
+import { X } from "lucide-react";
 import NeonBtn from './ui/NeonBtn';
 import LinktreeCard from './ui/LinktreeCard';
 
-const  Navbar = ({ active, scrollTo, menuOpen, setMenuOpen }) =>{
+const NAV_LINKS = ["About", "Projects", "Experience", "Resume", "Profiles", "Contact"];
+
+const Navbar = ({ active, scrollTo, menuOpen, setMenuOpen }) => {
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const el = document.getElementById("scroll-root");
     if (!el) return;
@@ -28,59 +20,296 @@ const  Navbar = ({ active, scrollTo, menuOpen, setMenuOpen }) =>{
 
   return (
     <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        /* ── Desktop nav ── */
+        .nav-desktop {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+        }
+
+        /* ── Mobile pill-row nav (always visible, no hamburger) ── */
+        .nav-mobile-bar {
+          display: none;
+        }
+
+        /* Hide floating linktree on mobile — replaced by FAB */
+        .floating-linktree-wrap {
+          display: block;
+        }
+
+        /* Mobile floating Connect FAB — hidden on desktop */
+        .mobile-connect-fab {
+          display: none;
+        }
+
+        @media (max-width: 820px) {
+          .nav-desktop        { display: none !important; }
+          .nav-mobile-bar     { display: flex !important; }
+          .nav-logo-text      { font-size: 13px !important; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .floating-linktree-wrap { display: none !important; }
+          /* Show FAB on mobile */
+          .mobile-connect-fab { display: flex !important; }
+        }
+
+        @media (max-width: 400px) {
+          .nav-logo-text { display: none !important; }
+        }
+
+        @keyframes fab-pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.5), 0 4px 20px rgba(34,211,238,0.35); }
+          60%       { box-shadow: 0 0 0 8px rgba(34,211,238,0), 0 4px 20px rgba(34,211,238,0.35); }
+        }
+
+        /* Scrollable pill strip — hide scrollbar visually */
+        .nav-pill-strip {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 0 12px 0 12px;
+          /* Extra right padding so last pill fully visible */
+          padding-right: 20px;
+        }
+        .nav-pill-strip::after {
+          content: '';
+          display: block;
+          min-width: 8px;
+          flex-shrink: 0;
+        }
+        .nav-pill-strip::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Individual pill button */
+        .nav-pill {
+          flex-shrink: 0;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px 13px;
+          border-radius: 100px;
+          font-family: 'Outfit', sans-serif;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          line-height: 1;
+        }
+        .nav-pill.active {
+          background: rgba(59,130,246,0.18);
+          color: #3b82f6;
+          box-shadow: 0 0 0 1.5px #3b82f6;
+        }
+        .nav-pill.inactive {
+          color: #64748b;
+          background: rgba(255,255,255,0.04);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.07);
+        }
+        .nav-pill-connect {
+          flex-shrink: 0;
+          background: rgba(34,211,238,0.12) !important;
+          color: #22d3ee !important;
+          box-shadow: 0 0 0 1.5px rgba(34,211,238,0.45) !important;
+          border: none;
+          cursor: pointer;
+          padding: 5px 13px;
+          border-radius: 100px;
+          font-family: 'Outfit', sans-serif;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          line-height: 1;
+        }
+        .nav-pill-connect:hover {
+          background: rgba(34,211,238,0.22) !important;
+          box-shadow: 0 0 10px rgba(34,211,238,0.5) !important;
+        }
+
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 10px 2px #3b82f666; }
+          50%       { box-shadow: 0 0 22px 6px #22d3ee55; }
+        }
+      `}</style>
+
+      {/* ───── Main nav bar ───── */}
       <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        background: scrolled ? "rgba(0,0,0,0.95)" : "rgba(0,0,0,0.6)",
+        position: "fixed",
+        top: 0, left: 0, right: 0,
+        zIndex: 50,
+        background: scrolled ? "rgba(5,6,12,0.97)" : "rgba(5,6,12,0.7)",
         backdropFilter: "blur(20px)",
-        borderBottom: scrolled ? "1px solid rgba(59,130,246,0.2)" : "1px solid rgba(59,130,246,0.1)",
-        padding: scrolled ? "12px 28px" : "20px 28px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        borderBottom: `1px solid ${scrolled ? "rgba(59,130,246,0.22)" : "rgba(59,130,246,0.1)"}`,
+        transition: "all 0.35s cubic-bezier(0.4,0,0.2,1)",
         width: "100%",
-        maxWidth: "100%",
       }}>
-        <button onClick={() => scrollTo("Hero")} style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", transition: "transform 0.2s" }}
-          onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-          onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-        >
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#3b82f6,#2563eb)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 16, color: "#ffffff", boxShadow: "0 0 20px rgba(59,130,246,0.4)" }}>A</div>
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 18, color: "#fff", letterSpacing: "-0.02em" }}>Aditya Prasad Sahoo</span>
-        </button>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="desktop-nav">
-          {["About", "Projects", "Experience", "Resume", "Profiles", "Contact"].map(l => (
-            <button key={l} onClick={() => scrollTo(l)} style={{
+        {/* Top row: logo + desktop nav + hire me */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px 24px" : "16px 24px",
+          transition: "padding 0.35s ease",
+        }}>
+          {/* Logo */}
+          <button
+            onClick={() => scrollTo("Hero")}
+            style={{
+              display: "flex", alignItems: "center", gap: 9,
               background: "none", border: "none", cursor: "pointer",
-              fontFamily: "'Space Grotesk', sans-serif", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600,
-              color: active === l.toLowerCase() ? "#3b82f6" : "#94a3b8",
-              borderBottom: active === l.toLowerCase() ? "2px solid #3b82f6" : "2px solid transparent",
-              paddingBottom: 4, transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              position: "relative",
+              transition: "transform 0.2s", flexShrink: 0,
             }}
-              onMouseEnter={e => { if (active !== l.toLowerCase()) e.currentTarget.style.color = "#60a5fa"; }}
-              onMouseLeave={e => { if (active !== l.toLowerCase()) e.currentTarget.style.color = active === l.toLowerCase() ? "#3b82f6" : "#94a3b8"; }}
-            >{l}</button>
-          ))}
-          <NeonBtn onClick={() => scrollTo("Contact")} style={{ padding: "8px 20px", fontSize: 12 }}>Hire Me</NeonBtn>
-          {/* Linktree Connect Button with Neon Glow and Card Tooltip */}
-          {/* Connect button removed from navbar */}
+            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.04)"}
+            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+          >
+            <div style={{
+              width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+              background: "linear-gradient(135deg,#3b82f6,#2563eb)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 16,
+              color: "#ffffff", boxShadow: "0 0 20px rgba(59,130,246,0.4)"
+            }}>A</div>
+            <span
+              className="nav-logo-text"
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontWeight: 700, fontSize: 15,
+                color: "#f1f5f9", letterSpacing: "-0.01em",
+              }}
+            >Aditya Prasad Sahoo</span>
+          </button>
+
+          {/* Desktop nav links */}
+          <div className="nav-desktop">
+            {NAV_LINKS.map(l => {
+              const isActive = active === l.toLowerCase();
+              return (
+                <button
+                  key={l}
+                  onClick={() => scrollTo(l)}
+                  style={{
+                    background: "none", border: "none", cursor: "pointer",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: 11, fontWeight: 600,
+                    letterSpacing: "0.08em", textTransform: "uppercase",
+                    color: isActive ? "#3b82f6" : "#64748b",
+                    borderBottom: `2px solid ${isActive ? "#3b82f6" : "transparent"}`,
+                    paddingBottom: 3,
+                    transition: "color 0.2s, border-color 0.2s",
+                  }}
+                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = "#94a3b8"; }}
+                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = "#64748b"; }}
+                >{l}</button>
+              );
+            })}
+            <NeonBtn onClick={() => scrollTo("Contact")} style={{ padding: "7px 18px", fontSize: 11 }}>
+              Hire Me
+            </NeonBtn>
+          </div>
         </div>
-        <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", display: "none", padding: 8 }} className="mob-menu-btn">
-          <Menu size={22} />
-        </button>
+
+        {/* Mobile pill-row (shown only ≤820px) */}
+        <div
+          className="nav-mobile-bar"
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+            paddingBottom: 8,
+            paddingTop: 6,
+          }}
+        >
+          <div className="nav-pill-strip">
+            {NAV_LINKS.map(l => {
+              const isActive = active === l.toLowerCase();
+              return (
+                <button
+                  key={l}
+                  onClick={() => scrollTo(l)}
+                  className={`nav-pill ${isActive ? "active" : "inactive"}`}
+                >{l}</button>
+              );
+            })}
+            {/* Hire Me pill */}
+            <button
+              onClick={() => scrollTo("Contact")}
+              className="nav-pill"
+              style={{
+                background: "linear-gradient(135deg, #2563eb, #3b82f6)",
+                color: "#fff",
+                boxShadow: "0 0 12px rgba(59,130,246,0.4)",
+              }}
+            >Hire Me</button>
+          </div>
+        </div>
       </nav>
-      {/* Floating Professional Connect on Linktree Button */}
-      <div
+
+      {/* ───── Mobile Connect FAB (fixed, always visible, bottom-right) ───── */}
+      <a
+        href="https://linktr.ee/adityasahoo217"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mobile-connect-fab"
         style={{
-          position: 'fixed',
-          top: 80,
-          right: 28,
-          zIndex: 120,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          /* Responsive: move to bottom right and shrink on mobile */
+          position: "fixed",
+          bottom: 24,
+          right: 16,
+          zIndex: 999,
+          alignItems: "center",
+          gap: 7,
+          padding: "10px 18px",
+          borderRadius: 100,
+          background: "rgba(6,8,18,0.92)",
+          border: "1.5px solid #22d3ee",
+          backdropFilter: "blur(12px)",
+          textDecoration: "none",
+          animation: "fab-pulse 2.5s ease-in-out infinite",
+          cursor: "pointer",
         }}
-        className="floating-linktree-btn"
+      >
+        <img
+          src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linktree.svg"
+          alt="Linktree"
+          style={{
+            width: 15, height: 15,
+            filter: "invert(70%) sepia(60%) saturate(500%) hue-rotate(80deg) brightness(100%) drop-shadow(0 0 8px #43E660)",
+          }}
+        />
+        <span style={{
+          fontFamily: "'Outfit', sans-serif",
+          fontWeight: 700,
+          fontSize: 13,
+          color: "#22d3ee",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+        }}>Connect</span>
+      </a>
+
+      {/* ───── Desktop Floating Linktree ───── */}
+      <div
+        className="floating-linktree-wrap"
+        style={{
+          position: "fixed",
+          top: 76, right: 24,
+          zIndex: 120,
+        }}
       >
         <TooltipProvider>
           <Tooltip>
@@ -89,124 +318,59 @@ const  Navbar = ({ active, scrollTo, menuOpen, setMenuOpen }) =>{
                 href="https://linktr.ee/adityasahoo217"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none" }}
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    padding: '7px 16px',
-                    borderRadius: 12,
-                    background: 'rgba(24, 32, 56, 0.72)',
-                    boxShadow: '0 3px 16px 0 #3b82f6cc, 0 0 0 1.5px #3b82f6',
-                    border: '1.2px solid #22d3ee',
-                    backdropFilter: 'blur(6px)',
-                    transition: 'box-shadow 0.3s, border 0.3s',
-                    cursor: 'pointer',
-                    minWidth: 110,
-                    maxWidth: 180,
-                  }}
-                  className="floating-linktree-btn-inner"
+                <div style={{
+                  display: "flex", alignItems: "center", gap: 7,
+                  padding: "6px 14px", borderRadius: 11,
+                  background: "rgba(8,10,20,0.82)",
+                  boxShadow: "0 2px 14px #3b82f6bb, 0 0 0 1.5px #3b82f6",
+                  border: "1px solid #22d3ee",
+                  backdropFilter: "blur(8px)",
+                  cursor: "pointer",
+                  transition: "box-shadow 0.3s, border-color 0.3s",
+                }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.boxShadow = '0 0 20px 4px #22d3ee99, 0 0 0 1.5px #3b82f6';
-                    e.currentTarget.style.border = '1.5px solid #3b82f6';
+                    e.currentTarget.style.boxShadow = "0 0 22px 4px #22d3ee88, 0 0 0 1.5px #3b82f6";
+                    e.currentTarget.style.borderColor = "#3b82f6";
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.boxShadow = '0 3px 16px 0 #3b82f6cc, 0 0 0 1.5px #3b82f6';
-                    e.currentTarget.style.border = '1.2px solid #22d3ee';
+                    e.currentTarget.style.boxShadow = "0 2px 14px #3b82f6bb, 0 0 0 1.5px #3b82f6";
+                    e.currentTarget.style.borderColor = "#22d3ee";
                   }}
                 >
-                  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linktree.svg" alt="Linktree" style={{ width: 18, height: 18, filter: 'drop-shadow(0 0 5px #22d3ee)' }} className="floating-linktree-btn-img" />
+                  <img
+                  src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linktree.svg"
+                  alt="Linktree"
+                  style={{
+                    width: 16,
+                    height: 16,
+                    filter: "invert(64%) sepia(83%) saturate(374%) hue-rotate(79deg) brightness(95%) contrast(91%) drop-shadow(0 0 5px #43E660)"
+                  }}
+                />
                   <span style={{
-                    fontWeight: 700,
-                    letterSpacing: '0.04em',
-                    fontSize: 13,
-                    color: '#fff',
-                    textShadow: '0 0 4px #22d3ee, 0 0 1px #3b82f6',
-                    fontFamily: 'Space Grotesk, Inter, sans-serif',
-                  }} className="floating-linktree-btn-text">Connect</span>
+                    fontFamily: "'Outfit', sans-serif",
+                    fontWeight: 700, fontSize: 12,
+                    color: "#fff",
+                    textShadow: "0 0 4px #22d3ee",
+                    letterSpacing: "0.04em",
+                  }}>Connect</span>
                 </div>
               </a>
             </TooltipTrigger>
-            <TooltipContent sideOffset={14} style={{ background: 'transparent', border: 'none', boxShadow: 'none', padding: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <TooltipContent
+              sideOffset={12}
+              style={{ background: "transparent", border: "none", boxShadow: "none", padding: 0 }}
+            >
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <LinktreeCard username="adityasahoo217" />
               </div>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
-      {menuOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(0,0,0,0.98)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 28, animation: "fadeIn 0.3s ease-out", padding: 16 }}>
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: 24, right: 24, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 8, transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#3b82f6"}
-            onMouseLeave={e => e.currentTarget.style.color = "#94a3b8"}
-          ><X size={26} /></button>
-          {["About", "Projects", "Experience", "Resume", "Profiles", "Contact"].map((l, idx) => (
-            <button key={l + '-' + idx} onClick={() => { scrollTo(l); setMenuOpen(false); }} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(18px,7vw,38px)', fontWeight: 700, color: "#fff", transition: "all 0.3s", animation: `fadeInUp 0.4s ease-out ${idx * 0.1}s both`, width: '100%', textAlign: 'center', padding: '10px 0' }}
-              onMouseEnter={e => { e.target.style.color = "#3b82f6"; e.target.style.transform = "scale(1.08)"; }}
-              onMouseLeave={e => { e.target.style.color = "#fff"; e.target.style.transform = "scale(1)"; }}
-            >{l}</button>
-          ))}
-          {/* Add Hire Me and Connect buttons in mobile menu */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18, width: '100%', alignItems: 'center', marginTop: 18 }}>
-            
-            <NeonBtn onClick={() => { scrollTo('Contact'); setMenuOpen(false); }} style={{ padding: '10px 0', width: '80%', fontSize: 18 }}>Hire Me</NeonBtn>
-            <NeonBtn
-              as="a"
-              href="https://linktr.ee/adityasahoo217"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: '10px 0',
-                width: '80%',
-                fontSize: 18,
-                background: 'linear-gradient(135deg, #3b82f6 60%, #22d3ee 100%)',
-                color: '#fff',
-                boxShadow: '0 0 16px 2px #3b82f6, 0 0 32px 8px #22d3ee44',
-                border: '1.5px solid #3b82f6',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                justifyContent: 'center',
-                animation: 'pulse-glow 2s infinite',
-              }}
-            >
-              <img src="https://api.blog.production.linktr.ee/wp-content/uploads/2022/06/Avatar-Symbol-Canopy.png" alt="Linktree" style={{ width: 22, height: 22, filter: 'drop-shadow(0 0 6px #22d3ee)' }} />
-              <span style={{ fontWeight: 600, letterSpacing: '0.04em' }}>Connect</span>
-            </NeonBtn>
-          </div>
-        </div>
-      )}
-      <style>{`
-                @media (max-width: 600px) {
-                  .floating-linktree-btn {
-                    top: auto !important;
-                    bottom: 24px !important;
-                    right: 16px !important;
-                    align-items: flex-end !important;
-                  }
-                  .floating-linktree-btn-inner {
-                    padding: 5px 10px !important;
-                    border-radius: 9px !important;
-                    min-width: 70px !important;
-                    max-width: 120px !important;
-                  }
-                  .floating-linktree-btn-img {
-                    width: 13px !important;
-                    height: 13px !important;
-                  }
-                  .floating-linktree-btn-text {
-                    font-size: 10px !important;
-                    letter-spacing: 0.03em !important;
-                  }
-                }
-        @media(max-width:768px){ .desktop-nav{display:none!important} .mob-menu-btn{display:flex!important} }
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-      `}</style>
     </>
-  )};
+  );
+};
 
-  export default Navbar;
+export default Navbar;
