@@ -16,7 +16,7 @@ import {
   SiGit,
   SiPython
 } from "react-icons/si";
-import { SiSpringboot, SiReact, SiPostgresql } from "react-icons/si";
+
 
 function Skills() {
 
