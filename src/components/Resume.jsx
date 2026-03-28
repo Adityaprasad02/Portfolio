@@ -41,7 +41,7 @@ const GlowText = ({ children, colors = ["#3b82f6", "#60a5fa", "#93c5fd"] }) => (
             <p style={{ color: "#94a3b8", fontSize: 17, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px", fontFamily: "'Inter', sans-serif", lineHeight: 1.7 }}>
               Download my resume for a complete overview of my experience, skills, certifications, and achievements.
             <a
-            href="/assets/Resume/AdityaUpdatedResume.pdf"
+            href="/assets/Resume/resumeAdi.pdf"
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "none" }}

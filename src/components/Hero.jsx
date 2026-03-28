@@ -150,7 +150,7 @@ Building scalable backend systems with microservices, APIs, and event-driven arc
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8 }}>
             <NeonBtn onClick={() => scrollTo("projects")}><Server size={14} />View Projects</NeonBtn>
-            <NeonBtn href="/assets/Resume/AdityaUpdatedResume.pdf" outline><Download size={14} />Download Resume</NeonBtn>
+            <NeonBtn href="/assets/Resume/resumeAdi.pdf" outline><Download size={14} />Download Resume</NeonBtn>
           </div>
 
           <div ref={ref} style={{ display: "flex", gap: 40, paddingTop: 24, borderTop: "1px solid rgba(59,130,246,0.2)", marginTop: 8 }}>
